@@ -1,2 +1,3 @@
 # ATTEND-EASE
-<h1 style="color:red">A EASY TO USE ATTENDANCE SYSTEM FOR COLLEGES (FACE ATTENDANCE)</h1>
+<h1 style="color:red">An Easy-to-Use Face Attendance System for Colleges</h1>
+

@@ -2,6 +2,6 @@ import React from 'react'
 
 export default function WEAREREADYTOTWORK() {
   return (
-    <div>WEAREREADYTOTWORK</div>
+    <div>GITHUB AND GIT IS SUPER EASY</div>
   )
 }

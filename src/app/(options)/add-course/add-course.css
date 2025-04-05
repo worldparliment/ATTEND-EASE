@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Inclusive+Sans:ital,wght@0,300..700;1,300..700&display=swap');
+
+
+#container-add-course{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 40px;
+}
+
+
+#add-course-logo {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 60px;
+}
+
+#add-course-logo img {
+    width: 90px;
+    height: auto;
+}
+
+
+#course-form {
+    font-family: "Inclusive sans";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    --aug-border-bg:#E9758A;
+    width: fit-content;
+    padding: 40px;
+    
+}
+
+
+
+
+
+#fill-input{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%;
+ gap: 10px;
+}
+
+
+#fill-input input{
+    padding: 10px;
+    width: 240px;
+    border-radius: 5px;
+    font-size: large;
+    border: 1px solid #E9758A;
+}
+
+
+#add{
+    font-size: x-large ;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 5px;
+    border: 1px solid black;
+    font-family: "audiowide";
+    background-color: #E9758A;
+    color: white;
+    cursor: pointer;
+}
+
+
+#add:hover{
+    background-color: #b16371;
+}

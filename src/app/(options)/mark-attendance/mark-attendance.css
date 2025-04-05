@@ -1,0 +1,49 @@
+#video-container-mark-attendance{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    padding: 10px;
+    background-color: #E9758A;
+    border-radius: 10px;
+}
+
+
+#face-scan-video{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    border: 1px solid black;
+    background-color: #E9758A;
+}
+
+
+#mark-attendance-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 50px;
+}
+
+
+
+#capture-button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#capture-button  {
+    background-color: #E9758A;
+    color: white;
+    cursor: pointer;
+    padding: 20px;
+    border: 1px solid black;
+    font-size: medium;
+    width: 80px;
+    border-radius: 10px;
+    text-align: center;
+    width: 140px;
+}

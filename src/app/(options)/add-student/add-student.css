@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Inclusive+Sans:ital,wght@0,300..700;1,300..700&display=swap');
+
+
+
+#add-student-logo-text{
+   
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+#add-student-form{
+    display: flex;
+    
+    align-items: center;
+    justify-content: space-around;
+   
+
+}
+
+
+
+#add-student-form-inputs{
+    display: flex;
+    flex-direction: column;
+    gap: 55px
+;
+}
+
+
+
+
+#add-student-form-inputs input{
+  padding: 10px;
+  width: 200px;
+  border: none;
+  border: 1px solid #E9758A;
+  border-radius: 5px;
+}
+
+
+#add-student-form-lables{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+#add-student-form-lables h2{
+    font-family: "Inclusive sans", sans-serif;
+    border-left: 1px solid #E9758A;
+    border-bottom: 1px solid #E9758A;
+   
+}
+
+
+
+
+
+#wrappers{
+
+    display: flex;
+    margin-right: 100px;
+    padding: 50px;
+    gap: 30px;
+}
+
+
+#add{
+  
+    width: fit-content ;
+    display: flex;
+    flex-direction: column;
+     
+}
+
+a{
+    text-decoration: none;
+    color: #000000; 
+}
+
+a:hover{
+    color: #E9758A;
+}
+
+
+a p {
+    font-family: "Inclusive sans", sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-left: 10px;
+}
+
+
+
+#add-student-register-button{
+  display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+
+#add-student-register-button button{
+    padding: 10px;
+    width: 200px;
+    border: none;
+    background-color: #E9758A;
+    color: white;
+    font-size: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}

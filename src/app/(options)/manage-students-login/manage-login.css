@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Inclusive+Sans:ital,wght@0,300..700;1,300..700&display=swap');
+
+#container-manage-students-login {
+    display: flex;
+   flex-direction: column;
+    justify-content: center;
+    margin-top: 50px;
+    align-items: center;
+}
+
+
+#header-manage-students-login {
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+
+#header-manage-students-login img {
+    width: 90px;
+
+}
+
+
+#manage-student-login-form{
+   font-family: "Inclusive Sans", sans-serif;
+   display: flex;
+   flex-direction: column;
+}
+
+
+#manage-student-login-form h4 {
+    color: #CE4C64;
+}
+
+
+
+#manage-student-login-form-input{
+    border: 2px solid black;
+    display: flex;
+    width: fit-content;
+    padding: 24px;
+    gap: 30px;
+    border-radius: 10px;
+}
+
+
+#manage-student-login-form-input select{
+    border: 2px solid black;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: "Inclusive Sans", sans-serif;
+    font-size: 20px;
+    width: 200px;
+    background-color: #CE4C64;
+    color: white;
+}
+
+#manage-student-login-form-input select option:hover{
+    background-color: black;
+    color: white;
+}
+
+
+#manage-students-login-inputs{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 10px;
+}
+
+
+#manage-students-login-inputs input{
+    border: 2px solid black;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: "Inclusive Sans", sans-serif;
+    font-size: 20px;
+    width: 200px;
+
+}
+
+
+#manage-students-login-lables {
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+
+#sumbit{
+    background-color: #CE4C64;
+    color: white;
+    width: 100px;
+   margin-top: 20px;
+   border-radius: 10px;
+   cursor: pointer;
+   padding: 10px;
+   text-align: center;
+   font-family: "Inclusive Sans", sans-serif;
+    font-size: 20px;
+}
+
+
+#sumbit:hover{
+    background-color: black;
+    color: white;
+    transition: 0.3s;
+}

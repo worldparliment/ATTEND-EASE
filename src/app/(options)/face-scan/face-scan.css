@@ -1,0 +1,54 @@
+#kh{
+    border: 1px solid #000;
+    border-radius: 5px;
+    background-color: #E9758A;
+    color: white;
+    margin-right: 15px;
+}
+
+
+#face-scan-header-text{
+   
+    display: flex;
+    justify-content: center;
+}
+
+
+
+#face-scan-video {
+    border: 1px solid #000;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #E9758A;
+
+}
+
+
+#face-scan-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#face-scan-btn button {
+    background-color: #E9758A;
+    color: white;
+    cursor: pointer;
+    padding: 20px;
+    border: 1px solid black;
+    font-size: medium;
+    width: 80px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+
+
+
+
+#video-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 600px;
+}

@@ -16,6 +16,7 @@ export default function Page() {
   const [isPopupOpenFailed, setIsPopupOpenFailed] = React.useState(false);
   const [isSearching, setIsSearching] = React.useState(false);
   const [face_name, setFaceName] = React.useState("");
+  
 
   useEffect(() => {
     let stream: MediaStream | null = null;

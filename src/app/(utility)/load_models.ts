@@ -1,6 +1,7 @@
+import * as faceapi from 'face-api.js';
 export const loadModels = async () => {
   // @ts-ignore: faceapi is from CDN
-  const faceapi = window.faceapi;
+
 
 
     try {

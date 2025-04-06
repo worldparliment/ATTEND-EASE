@@ -2,6 +2,7 @@ export type FaceEmbedding = {
     face_embeddings: number[];
     name: string;
     course_id: number;
+    roll_no:number;
   };
   
   export const get_all_face_embeddings = async (

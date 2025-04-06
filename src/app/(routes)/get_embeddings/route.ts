@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
 
     try {
         const [rows] = await DB.query(
-            "SELECT face_embeddings, name, course_id FROM STUDENTS WHERE course_id = ?",
+            "SELECT face_embeddings, name, course_id , roll_no FROM STUDENTS WHERE course_id = ?",
             [course_id]
         );
 
@@ -21,7 +21,9 @@ export async function POST(request: NextRequest) {
             return {
                 face_embeddings: JSON.parse(Buffer.from(blobData).toString()),
                 name: row.name,
-                course_id: row.course_id
+                course_id: row.course_id,
+                roll_no:row.roll_no
+
             } as FaceEmbedding;
         });
 

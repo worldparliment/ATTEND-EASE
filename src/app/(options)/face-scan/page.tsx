@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import jwt from 'jwt-simple'
 import * as faceapi from 'face-api.js';
+import { normalizeVector } from '@/app/(utility)/normalize';
 
 export default function FaceScanPage() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -59,8 +60,9 @@ export default function FaceScanPage() {
         }
 
         const plainArray = Array.from(embeddings.descriptor);
+          let real_array = normalizeVector(plainArray)
          console.log('Face embedding:', plainArray);
-         localStorage.setItem('face_embedding', JSON.stringify(plainArray));
+         localStorage.setItem('face_embedding', JSON.stringify(real_array));
         // ✅ Sign and store as JWT
         try {
        

@@ -6,7 +6,6 @@ import { loadModels } from '@/app/(utility)/load_models';
 import React, { useEffect, useRef, useState } from 'react';
 import Popup from '@/app/Component/pop-up';
 import { useRouter } from 'next/navigation';
-import * as faceapi from 'face-api.js';
 import { normalizeVector } from '@/app/(utility)/normalize';
 import { get_super_admin_id } from '@/app/(utility)/get_super_admin_id';
 import { decode } from '@/app/(utility)/decode';

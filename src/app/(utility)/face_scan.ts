@@ -1,4 +1,4 @@
-import Popup from "../Component/pop-up";
+
 import * as faceapi from 'face-api.js';
 
 

@@ -1,0 +1,40 @@
+#options-todo{
+   display: flex;
+   flex-direction: column;
+   gap: 20px;
+}
+
+
+.todo{
+    width: 260px;
+    padding: 5px;
+    border-radius: 10px;
+    text-align: center;
+    background-color: #E9758A;
+    color: white;
+    cursor: pointer;
+    margin-left: 40px;
+}
+
+
+.todo:hover{
+    background-color: black;
+}
+
+
+#main-container{
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+
+#main-header{
+    margin-left: 45px;
+}
+
+
+a{
+  text-decoration: none;
+  color: inherit; /* Use the inherited color from the parent element */
+}

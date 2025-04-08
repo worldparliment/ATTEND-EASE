@@ -1,11 +1,10 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import { search_student, Student } from '@/app/(utility)/search_students'
-import "./search-student.css"
+import "./update-details.css"
 import Popup from '@/app/Component/pop-up'
 import Link from 'next/link'
 import { decode } from '@/app/(utility)/decode'
-import { get_course_name } from '@/app/(utility)/get_course_name'
 import { useRouter } from 'next/navigation'
 
 export default function Page() {
@@ -13,33 +12,27 @@ export default function Page() {
   const [name, setName] = useState("")
   const [isSearching, setSearching] = useState(false)
   const [showModal, setShowModal] = useState(false)
-  const [courseName, setCourseName] = useState("")
   const router = useRouter()
 
   useEffect(() => {
-    const verify = async () => {
+    async function verifyAuth() {
       const token = localStorage.getItem("course_id")
 
       if (!token) {
         alert("Unauthorized access. Please log in.")
-        router.push("/login") // ⬅️ Change to your login route
+        router.push("/manage-students-login")
         return
       }
 
       try {
-        const decoded = await decode(token)
-        const course_id = decoded.course_id
-
-        const name = await get_course_name(course_id)
-        setCourseName(name as string)
+        await decode(token)
       } catch (err) {
-        console.error("Token error:", err)
-        alert("Something went wrong. Try logging in again.")
-        router.push("/login")
+        alert("Session expired or invalid token. Please log in again.")
+        router.push("/manage-students-login")
       }
     }
 
-    verify()
+    verifyAuth()
   }, [])
 
   async function stud(name: string) {
@@ -74,12 +67,12 @@ export default function Page() {
     <div id="main-c">
       <div id="header-search-student">
         <h1>ACTIVE COURSE</h1>
-        <h1>{courseName || "Loading..."}</h1>
+        <h1>BCA-2025</h1>
 
         <div id="main-conatiner-search">
           <div id="head-logo">
-            <img src='https://cdn-icons-png.flaticon.com/128/54/54481.png' />
-            <h2>SEARCH STUDENT</h2>
+            <img src='https://cdn-icons-png.flaticon.com/128/3538/3538615.png' />
+            <h2>UPDATE DETAILS</h2>
           </div>
 
           <div id="search">
@@ -95,7 +88,7 @@ export default function Page() {
         <div className="modal-student-container">
           {students.map((student, index) => (
             <Link
-              href={`/search/${student.roll_no}`}
+              href={`/update/${student.roll_no}`}
               key={index}
               style={{ textDecoration: 'none', color: 'inherit' }}
             >

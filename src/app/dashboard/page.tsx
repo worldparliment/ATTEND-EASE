@@ -1,5 +1,7 @@
 "use client";
 
+import { get_all_presents } from "../(utility)/get_all_present";
+import { get_student_count } from "../(utility)/get_student_count";
 import "./dashboard.css"
 
 import React, { useEffect, useState } from "react";
@@ -7,9 +9,18 @@ import React, { useEffect, useState } from "react";
 export default function Page() {
   const [email, setEmail] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [all_students , setcount] = useState(0);
+  const [PRESENT , SETPRESENT] = useState(0)
 
   useEffect(() => {
     async function fetchData() {
+   
+
+    let all = await  get_all_presents()
+ SETPRESENT(all)
+      
+
+
       try {
         const response = await fetch("http://localhost:3000/admin_data", {
           method: "GET",
@@ -25,11 +36,15 @@ export default function Page() {
         }
 
         const data = await response.json();
+        let start = await get_student_count("FOR_WHOLE_COLLEGE" , undefined , data.super_admin_id ) as unknown as []
+        setcount(start.length);
+
         setEmail(data.college_name); // Store email in state
       } catch (err) {
         setError("Error loading dashboard");
         console.error("Error:", err);
       }
+
     }
 
     fetchData();
@@ -59,14 +74,14 @@ export default function Page() {
         <div className="data-boxes">
            <h3>TOTAL STUDENTS</h3>
            <div className="data">
-                 <h1>400</h1>
+                 <h1>{all_students}</h1>
            </div>
         </div>
 
         <div className="data-boxes">
         <h3>TOTAL PRESENT</h3>
         <div className="data">
-            <h1>240</h1>
+            <h1>{PRESENT}</h1>
             </div>
         </div>
 
@@ -77,14 +92,14 @@ export default function Page() {
         <div className="data-boxes">
         <h3>TOTAL ABSENT</h3>
         <div className="data">
-        <h1>160</h1>
+        <h1>{all_students-PRESENT}</h1>
             </div>
         </div>
 
         <div className="data-boxes">
         <h3>ATTENDANCE RATE</h3>
         <div className="data">
-        <h1>80%</h1>
+        <h1>{all_students > 0 ? Math.round((PRESENT / all_students) * 100) : 0}%</h1>
             </div>
         </div>
         </div>

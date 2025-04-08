@@ -1,0 +1,59 @@
+
+
+
+
+#head-logoo{
+ 
+    display: flex;
+    align-items: center;
+    justify-content:center ;
+    gap: 20px;
+}
+
+
+#head-logoo img{
+    width: 80px;
+   
+}
+
+
+#attendance-table{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+
+
+#attendance-table h3{
+    color: white;
+    width:fit-content ;
+    border: 1px solid;
+    background-color: black;
+    font-family: "Inclusive sans";
+    font-size: x-large;
+    padding: 4px;
+    border-radius: 10px;
+    
+}
+
+
+#cards{
+    font-size: xx-large;
+    background-color: #E9758A;
+    font-family: "Inclusive sans";
+    color: white;
+    padding: 10px;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+
+
+#student-name {
+    color: black;
+    border: 1px solid black;
+    width: 100%;
+}

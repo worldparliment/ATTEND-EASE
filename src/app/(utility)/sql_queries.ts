@@ -14,7 +14,7 @@ VALUES (?,?,?,?,?)`;
 
 
 
-export const get_all_courses_sql = `SELECT course_name , course_id FROM courses WHERE super_admin_id = ?`;
+export const get_all_courses_sql = `SELECT course_name , course_id , course_password FROM courses WHERE super_admin_id = ?`;
 
 
 export const add_student_sql = `

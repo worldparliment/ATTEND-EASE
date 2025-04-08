@@ -11,11 +11,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Changed to boolean
-  const [super_admin_id , setId] = useState(0); // Changed to boolean
 
-  useEffect(() => {
-    get_id();
-  }, []);
 
   function openSidebar() {
     setIsSidebarOpen(!isSidebarOpen);
@@ -24,15 +20,7 @@ export default function RootLayout({
    
   
 
-  async function get_id () {
-    const id = await get_super_admin_id();
-     if(id===undefined){
-      setId(0);
-     }
-     else{
-      setId(id as number);
-     }
-    console.log("Super Admin ID:", id);}
+ 
 
 
   return (

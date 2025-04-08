@@ -12,11 +12,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [super_admin_id, setId] = useState(0);
   const [faceApiLoaded, setFaceApiLoaded] = useState(false);
 
   useEffect(() => {
-    get_id();
+
     
     // Load face-api.js from CDN
     const script = document.createElement('script');
@@ -39,18 +38,7 @@ export default function RootLayout({
     console.log("Sidebar Open:", !isSidebarOpen);
   }
   
-  async function get_id() {
-    const id = await get_super_admin_id();
-    
-    if(id === undefined) {
-      setId(0);
-    }
-    else {
-      setId(id as number);
-    }
-    console.log("Super Admin ID:", id);
-  }
-  
+
   return (
     <div id="container-1">
       <div

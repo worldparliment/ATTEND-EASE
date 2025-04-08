@@ -1,0 +1,92 @@
+#head-logo{
+    display: flex;
+    justify-content: center;
+}
+
+
+#head-logo img{
+    width: 70px;
+    height: auto;
+    
+}
+
+
+
+
+#search {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   gap: 40px;
+   margin-top: 100px;
+}
+
+
+#search input {
+    padding: 16px;
+    width: 15%;
+    font-size: x-large;
+}
+
+
+#search-btn{
+    font-size: x-large;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #E9758A;
+    border: none;
+    color: white;
+}
+
+
+#search-btn:hover{
+  background-color: black;
+  cursor: pointer;
+}
+
+
+.student-card {
+    background-color: white;
+    padding: 1rem;
+    margin: 1rem 0;              /* Adds vertical spacing */
+    border-radius: 12px;
+    border: 2px solid #ff9f9f;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    color: black;
+  }
+  
+
+
+  .modal-student-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 80vh;
+    overflow-y: auto;
+    font-family: "Inclusive sans";
+  }
+
+  
+
+
+  /* For Webkit browsers (Chrome, Edge, Safari) */
+.modal-student-container::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  .modal-student-container::-webkit-scrollbar-track {
+    background: #2c2c2c; /* dark track */
+    border-radius: 10px;
+  }
+  
+  .modal-student-container::-webkit-scrollbar-thumb {
+    background-color: #E9758A; /* deep maroon/red */
+    border-radius: 10px;
+    border: 2px solid #2c2c2c; /* matches track */
+  }
+  
+  .modal-student-container::-webkit-scrollbar-thumb:hover {
+    background-color: #E9758A; /* lighter on hover */
+  }
+  
+

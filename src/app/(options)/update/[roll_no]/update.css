@@ -1,0 +1,75 @@
+#stylish-card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+
+#card{
+    display: flex;
+    gap: 60px;
+    border: 2px solid;
+    padding: 15px;
+     
+}
+
+#labels-students{
+    display: flex;
+    flex-direction: column;
+  gap: 26px;
+  font-family: "Inclusive sans";
+}
+
+
+#inputs-student{
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  
+}
+
+
+#inputs-student input {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #E9758A;
+    color: white;
+    font-family: "Inclusive sans";
+    font-size: x-large;
+}
+
+
+#btn{
+    font-size: x-large;
+    background-color: transparent;
+    color: #E9758A;
+    font-family: "Inclusive sans";
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+
+#btn:hover{
+    background-color: black;
+    cursor: pointer;
+;
+}
+
+
+#update{
+    font-size: x-large;
+    padding: 4px;
+    background-color: #E9758A;
+    color: white;
+    font-family: "Inclusive sans";
+    border: none;
+    cursor: pointer;
+}
+
+
+
+#update:hover{
+    background-color: black;
+}

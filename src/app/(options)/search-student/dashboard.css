@@ -1,0 +1,278 @@
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Inclusive+Sans:ital,wght@0,300..700;1,300..700&display=swap');
+
+
+body{
+    margin: 0px;
+    font-family: 'audiowide';
+    font-weight: 100;
+}
+
+
+#container-1{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: flex-end;
+    
+}
+
+
+#aside-bar {
+   width: 400px;
+   height: 100vh;
+   border: 1px solid black;
+   float: right;
+   position: fixed;
+   transform: translateX(380px);
+   transition: all 0.3s ease-in-out;
+   background-color:#db5971;
+}
+
+
+#option-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+#six-dots{
+    height: 72px;
+    background-color: #db5971;
+    border-bottom: 1px solid black;
+}
+
+#imgs{
+    height: 50px;
+    width: 50px;
+    margin-left: 4px;
+    margin-top: 10px;
+    background-color: #db5971;
+    cursor: pointer;
+
+}
+
+
+
+#container-2{
+    width: 100%;
+    height: 100vh;
+}
+
+
+
+#navbar-dashboard {
+    width: 100%;
+    height: 63px;
+    border-bottom: 1px solid black;
+
+    margin-top: 10px;
+}
+
+#text-with-logo-dashboard {
+    width: 340px;
+    height: 100%;
+    display: flex;
+    gap: 10px;
+    margin-left: 10px;
+
+}
+
+#text-with-logo-dashboard img{
+   width: 20%;
+
+}
+
+
+
+
+#logo-text-span-dashboard {
+    color: #CE4C64;
+
+}
+
+
+
+
+.highlight{
+    color: #df6b80;
+}
+
+
+.dashboard-title {
+ width: fit-content;
+ height: fit-content;
+ margin-left: 50px;
+ margin-top: 50px;
+ line-height: 50px;
+
+}
+
+
+#analytics-box{
+    display: flex;
+}
+
+.data {
+    border: 1px solid black;
+    width: 230px;
+    height: 230px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(65, 62, 62);
+    font-size: 30px;
+    background: linear-gradient(145deg, #f1a5b3, #f1a5b3); /* Soft gradient for depth */
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3), /* Bottom right shadow */
+                -5px -5px 15px rgba(255, 255, 255, 0.7); /* Top left light */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover effect to lift the card */
+.data:hover {
+    transform: translateY(-5px);
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3),
+                -5px -5px 20px rgba(255, 255, 255, 0.7);
+}
+
+.data-boxes{
+    text-align: center;
+}
+
+#pairs {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+
+#four-boxes{
+   display: flex;
+   width: fit-content;
+   gap: 70px;
+   width: 50%;
+  margin-left: 50px;
+}
+
+
+
+
+.options {
+    color: white;
+    border-bottom: 1px solid white;
+    width: 70%;
+    margin-left: 3px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.options:hover{
+    color: #2c2c2c;
+}
+
+
+
+#top-attendance {
+    width: 300px;
+    border: 1px solid black;
+    border-radius: 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+#data-overview {
+    width: 95%;
+    height: 150px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+#students-attendance{
+    border: 1px solid black;
+    font-size: larger;
+    margin-top: 10px;
+    border-radius: 10px;
+    color: white;
+    background-color: #df6b80;
+    font-weight: lighter;
+    padding: 10px;
+}
+
+
+#students-attendance:hover{
+    transform: translateY(-5px);
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3),
+                -5px -5px 20px rgba(255, 255, 255, 0.7);
+                cursor: pointer;
+}
+
+
+
+
+
+
+
+
+#top-attendance {
+    width: 300px;
+    border: 1px solid black;
+    border-radius: 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3), 
+                -5px -5px 15px rgba(255, 255, 255, 0.7);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
+    cursor: pointer;
+}
+
+/* Hover Effect */
+#top-attendance:hover {
+    transform: translateY(-5px);
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3), 
+                -5px -5px 20px rgba(255, 255, 255, 0.7);
+    background: white;
+}
+
+/* Active (Click) Effect */
+#top-attendance:active {
+    transform: translateY(2px);
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3), 
+                -3px -3px 10px rgba(255, 255, 255, 0.7);
+}
+
+/* Text Styling */
+#top-attendance h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    text-transform: uppercase;
+}
+
+/* Animated Glow Effect */
+@keyframes glow {
+    0% { box-shadow: 0 0 5px rgba(255, 105, 180, 0.5); }
+    50% { box-shadow: 0 0 15px rgba(255, 105, 180, 0.8); }
+    100% { box-shadow: 0 0 5px rgba(255, 105, 180, 0.5); }
+}
+
+#top-attendance:hover {
+    animation: glow 1.5s infinite alternate;
+}
+
+
+
+a{
+    text-decoration: none;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

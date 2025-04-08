@@ -6,6 +6,8 @@ import Link from 'next/link'
 import { get_super_admin_id } from '@/app/(utility)/get_super_admin_id'
 import { get_courses } from '@/app/(utility)/get_courses'
 import getFaceEmbedding from '@/app/(utility)/get_face_emdedding'
+import { decode } from '@/app/(utility)/decode'
+import { get_course_name } from '@/app/(utility)/get_course_name'
 
 type Course = {
   course_id: number,
@@ -16,6 +18,7 @@ export default function Page() {
   const [super_admin_id, setSuperAdminId] = useState<number | null>(null)
   const [course_id, setCourseId] = useState<number | null>(null)
   const [faceAvailable, setFaceAvailable] = useState(false)
+  const [course_name , set_course_name] = useState("")
 
   const [student, setStudent] = useState({
     name: "",
@@ -40,19 +43,39 @@ export default function Page() {
     }
   }, [])
 
-  // Fetch super_admin_id and active course on load
+  // Fetch super_admin_id and course_id with redirects
   useEffect(() => {
-    async function fetchIds() {
-      const adminId = await get_super_admin_id()
-      setSuperAdminId(adminId as number)
+    async function authenticateAndFetchIds() {
+      try {
+        // 1. Get super admin ID
+        const adminId = await get_super_admin_id()
+        if (!adminId) throw new Error("No super admin ID")
+        setSuperAdminId(adminId as number)
 
-      const courses: Course[] = await get_courses(adminId as number)
-      if (courses.length > 0) {
-        setCourseId(courses[0].course_id)
+        // 2. Get course_id from token
+        const token = localStorage.getItem("course_id")
+        if (!token) throw new Error("No course token")
+
+        const decoded = await decode(token)
+        if (!decoded || !decoded.course_id) throw new Error("Invalid course token")
+
+        setCourseId(decoded.course_id)
+        let course = await get_course_name(course_id as number);
+        set_course_name(course as string)
+      } catch (error: any) {
+        console.error("Authentication error:", error.message)
+
+        if (error.message.includes("super admin")) {
+          alert("Authentication failed. Redirecting to login.")
+          window.location.href = "/login"
+        } else {
+          alert("You have no permission to add students to this course.")
+          window.location.href = "/manage-student-login"
+        }
       }
     }
 
-    fetchIds()
+    authenticateAndFetchIds()
   }, [])
 
   // Update input fields
@@ -97,7 +120,7 @@ export default function Page() {
 
   return (
     <div>
-      <h1>ACTIVE COURSE - <span>BCA</span></h1>
+      <h1>ACTIVE COURSE - <span>{course_name}</span></h1>
       <span><h1>2025</h1></span>
 
       <div id="add-student-logo-text">
@@ -125,11 +148,10 @@ export default function Page() {
         </div>
 
         <Link href="./face-scan" id="add">
-           <img src ="https://cdn-icons-png.flaticon.com/128/15742/15742687.png" alt="add" id="add-student-add-icon" />
-           <h1>CLICK HERE TO ADD FACE</h1>
-            <p>FIRST ADD FACE THEN YOU WILL ABLE TO FILL THE FORM</p>
+          <img src="https://cdn-icons-png.flaticon.com/128/15742/15742687.png" alt="add" id="add-student-add-icon" />
+          <h1>CLICK HERE TO ADD FACE</h1>
+          <p>FIRST ADD FACE THEN YOU WILL ABLE TO FILL THE FORM</p>
         </Link>
-
       </div>
 
       <div id="add-student-register-button">

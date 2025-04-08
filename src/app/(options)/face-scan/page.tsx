@@ -6,10 +6,10 @@ import { loadModels } from '@/app/(utility)/load_models';
 import React, { useEffect, useRef, useState } from 'react';
 import Popup from '@/app/Component/pop-up';
 import { useRouter } from 'next/navigation';
-import Cookies from 'js-cookie';
-import jwt from 'jwt-simple'
 import * as faceapi from 'face-api.js';
 import { normalizeVector } from '@/app/(utility)/normalize';
+import { get_super_admin_id } from '@/app/(utility)/get_super_admin_id';
+import { decode } from '@/app/(utility)/decode';
 
 export default function FaceScanPage() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -19,6 +19,40 @@ export default function FaceScanPage() {
   const [isPopupOpenprocessing, setIsPopupOpenprocessing] = useState(false);
   const router = useRouter();
 
+  const [super_admin_id, setSuperAdminId] = useState<number | null>(null);
+  const [course_id, setCourseId] = useState<number | null>(null);
+
+  // ⛔ Redirect if not super_admin or invalid course token
+  useEffect(() => {
+    async function verifyAccess() {
+      try {
+        const adminId = await get_super_admin_id();
+        if (!adminId) throw new Error("No super admin ID");
+        setSuperAdminId(adminId);
+
+        const token = localStorage.getItem("course_id");
+        if (!token) throw new Error("Missing course token");
+
+        const decoded = await decode(token);
+        if (!decoded?.course_id) throw new Error("Invalid course token");
+        setCourseId(decoded.course_id);
+      } catch (error: any) {
+        console.error("Access error:", error.message);
+
+        if (error.message.includes("super admin")) {
+          alert("Access denied. Redirecting to login.");
+          router.push("/login");
+        } else {
+          alert("You are not authorized to scan faces for this course.");
+          router.push("/manage-student-login");
+        }
+      }
+    }
+
+    verifyAccess();
+  }, []);
+
+  // 👁️ Load face models + camera
   useEffect(() => {
     const init = async () => {
       await loadModels();
@@ -38,8 +72,6 @@ export default function FaceScanPage() {
 
   async function handleCapture() {
     setIsPopupOpenprocessing(true);
-    console.log('Capture button clicked');
-
     const video = videoRef.current;
     const canvas = canvasRef.current;
 
@@ -53,31 +85,22 @@ export default function FaceScanPage() {
 
         const embeddings = await generate_image_embdeddings(canvas);
 
-        if (!embeddings || !embeddings.descriptor) {
+        if (!embeddings?.descriptor) {
           setIsPopupOpenprocessing(false);
           setIsPopupOpen(true);
           return;
         }
 
         const plainArray = Array.from(embeddings.descriptor);
-          let real_array = normalizeVector(plainArray)
-         console.log('Face embedding:', plainArray);
-         localStorage.setItem('face_embedding', JSON.stringify(real_array));
-        // ✅ Sign and store as JWT
-        try {
-       
+        const normalized = normalizeVector(plainArray);
+        localStorage.setItem('face_embedding', JSON.stringify(normalized));
 
-          setIsPopupOpenprocessing(false);
-          setIsPopupOpenface(true);
+        setIsPopupOpenprocessing(false);
+        setIsPopupOpenface(true);
 
-          setTimeout(() => {
-            router.push('/add-student');
-          }, 2000);
-        } catch (err) {
-          console.error('JWT signing error:', err);
-          setIsPopupOpenprocessing(false);
-          setIsPopupOpen(true);
-        }
+        setTimeout(() => {
+          router.push('/add-student');
+        }, 2000);
       }
     }
   }
@@ -101,9 +124,7 @@ export default function FaceScanPage() {
       </div>
 
       <div style={{ marginTop: '1rem' }} id='face-scan-btn'>
-        <button onClick={handleCapture} className="capture-btn" >
-         SCAN
-        </button>
+        <button onClick={handleCapture} className="capture-btn">SCAN</button>
       </div>
 
       <Popup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} title="ERROR">

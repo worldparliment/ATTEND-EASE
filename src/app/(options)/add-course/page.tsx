@@ -10,6 +10,7 @@ import { get_super_admin_id } from "@/app/(utility)/get_super_admin_id";
 
 export default function Page() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [is_open , setIsOpen] = useState(false);
   const [courseDetail, setDetails] = useState({
     course_name: "",
     course_year: "",
@@ -23,15 +24,20 @@ export default function Page() {
       try {
         const id = await get_super_admin_id();
         if (!id) {
-          alert("Token not found. Redirecting to login...");
-          window.location.href = "/login";
+          setIsOpen(true)
+
+            setTimeout(() => {
+            window.location.href = "/login";
+            }, 3000);
           return;
         }
         setAdminId(id as number);
       } catch (error) {
-        console.error("Error fetching super admin ID:", error);
-        alert("An error occurred. Redirecting to login...");
-        window.location.href = "/login";
+        console.log("Error fetching super admin ID:", error);
+       setIsOpen(true)
+        setTimeout(() => {
+          window.location.href = "/login";
+          }, 3000);
       }
     }
 
@@ -73,14 +79,14 @@ export default function Page() {
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        console.log(`HTTP error! status: ${response.status}`);
       }
 
       const result = await response.json();
       console.log(result);
       setIsPopupOpen(true);
     } catch (error) {
-      console.error("Error:", error);
+      console.log("Error:", error);
     }
   };
 
@@ -127,6 +133,11 @@ export default function Page() {
       <Popup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} title="SUCCESS!">
         <p>{courseDetail.course_name} was added successfully!</p>
       </Popup>
+
+      <Popup isOpen={is_open} onClose={() => setIsOpen(false)} title="LOGIN FIRST">
+        <p>PLEASE LOGIN AS ADMIN FIRST</p>
+      </Popup>
+
 
       <button id="add" onClick={handleAddCourse}>
         ADD

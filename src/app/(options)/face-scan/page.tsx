@@ -37,7 +37,6 @@ export default function FaceScanPage() {
         setCourseId(decoded.course_id);
       } catch (error: any) {
         console.error("Access error:", error.message);
-
         if (error.message.includes("super admin")) {
           alert("Access denied. Redirecting to login.");
           router.push("/login");
@@ -51,11 +50,10 @@ export default function FaceScanPage() {
     verifyAccess();
   }, []);
 
-  // 👁️ Load face models + camera
+  // 👁️ Load face-api models and camera
   useEffect(() => {
     const init = async () => {
       await loadModels();
-
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
         if (videoRef.current) {
@@ -65,10 +63,10 @@ export default function FaceScanPage() {
         console.error('Error accessing camera:', err);
       }
     };
-
     init();
   }, []);
 
+  // 📸 Main capture + preprocessing logic
   async function handleCapture() {
     setIsPopupOpenprocessing(true);
     const video = videoRef.current;
@@ -81,6 +79,23 @@ export default function FaceScanPage() {
 
       if (context) {
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+
+        // 🎨 Convert to grayscale + contrast boost
+        for (let i = 0; i < data.length; i += 4) {
+          const r = data[i];
+          const g = data[i + 1];
+          const b = data[i + 2];
+
+          let avg = (r + g + b) / 3;
+          avg = Math.min(255, Math.max(0, (avg - 128) * 1.5 + 128)); // contrast stretch
+
+          data[i] = data[i + 1] = data[i + 2] = avg; // grayscale
+        }
+
+        context.putImageData(imageData, 0, 0);
 
         const embeddings = await generate_image_embdeddings(canvas);
 

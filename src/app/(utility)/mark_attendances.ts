@@ -15,16 +15,15 @@ export async function MARK_ATTENDANCE(mark_attendance_details: Mark_attendance) 
 
   const { roll_number, status, course_id, name } = mark_attendance_details;
 
-  // ✅ Validation checks
   if (
     typeof roll_number !== "string" ||
     typeof course_id !== "number" ||
     typeof name !== "string" ||
     !(status === STATUS.PRESENT || status === STATUS.ABSENT)
   ) {
-    console.error("Invalid attendance data", mark_attendance_details);
-    alert("Invalid data: Please check the input fields.");
-    return;
+    const errorMsg = "Invalid data: Please check the input fields.";
+    console.error(errorMsg);
+    return { success: false, message: errorMsg };
   }
 
   try {
@@ -42,9 +41,16 @@ export async function MARK_ATTENDANCE(mark_attendance_details: Mark_attendance) 
     });
 
     const result = await response.json();
-    console.log(result);
-  } catch (err) {
-    console.error("Failed to mark attendance:", err);
-    alert("Error sending attendance. Please try again.");
+
+    if (!response.ok) {
+      // server responded with error
+      return { success: false, message: result.error || "Unknown server error" };
+    }
+
+    return { success: true, data: result };
+
+  } catch (error: any) {
+    console.log("Fetch error:", error);
+    return { success: false, message: error.message || "Request failed" };
   }
 }

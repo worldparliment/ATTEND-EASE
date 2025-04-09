@@ -25,10 +25,11 @@ export default function Page() {
   const [isSearching, setIsSearching] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [faceName, setFaceName] = useState("");
-  const [rollNo, setRollNo] = useState('');
   const [remaining, setRemaining] = useState(0);
   const [marked, setMarked] = useState(0);
   const [courseName, setCourseName] = useState("");
+  const [login , setlogin] = useState(false);
+  const [alreadymarked , setAlreadyMarked] = useState(false);
 
   const router = useRouter();
 
@@ -41,8 +42,8 @@ export default function Page() {
 
         const token = localStorage.getItem("course_id");
         if (!token) {
-          alert("Please login again.");
-          router.push("/manage-students-login");
+          setlogin(true);
+            setTimeout(() => router.push("/manage-students-login"), 2000);
           return;
         }
 
@@ -79,8 +80,8 @@ export default function Page() {
         }
 
       } catch (error) {
-        console.error("Error initializing attendance system:", error);
-        alert("Something went wrong. Please try again.");
+        console.log("Error initializing attendance system:", error);
+        setlogin(true)
       } finally {
         setIsLoading(false);
       }
@@ -129,18 +130,24 @@ export default function Page() {
       for (const student of students) {
         const match = match_face(student.embedding, faceToMatch);
         if (match && match > 0.9) {
-          setRollNo(student.roll_number);
           setFaceName(student.name);
-          setIsPopupOpen(true);
-
+          
           const data: Mark_attendance = {
             roll_number: student.roll_number,
             status: STATUS.PRESENT,
             course_id: student.course_id,
             name: student.name
           };
-
-          await MARK_ATTENDANCE(data);
+          
+          let sujal =  await MARK_ATTENDANCE(data); 
+          
+          if(sujal.success === false){
+            setAlreadyMarked(true);
+            setIsSearching(false);
+            return
+          }
+          
+          setIsPopupOpen(true);
           setMarked(prev => prev + 1);
 
           matchFound = true;
@@ -152,7 +159,7 @@ export default function Page() {
         setIsPopupOpenFailed(true);
       }
     } catch (err) {
-      console.error('Error generating embeddings:', err);
+      console.log('Error generating embeddings:', err);
       setIsPopupOpenFailed(true);
     } finally {
       setIsSearching(false);
@@ -199,6 +206,16 @@ export default function Page() {
       <Popup isOpen={isSearching} onClose={() => setIsSearching(false)}>
         <div>SEARCHING FOR MATCH...</div>
       </Popup>
+
+      <Popup isOpen={login} onClose={() => setlogin(false)}>
+        <div>PLEASE LOGIN FIRST INTO COURSE</div>
+      </Popup>
+
+      <Popup isOpen={alreadymarked} onClose={() => setAlreadyMarked(false)}>
+        <div>ALREADY MARKED FOR {faceName.toUpperCase()}</div>
+      </Popup>
+
+
     </div>
   );
 }

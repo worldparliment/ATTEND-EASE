@@ -11,11 +11,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Changed to boolean
-  const [super_admin_id , setId] = useState(0); // Changed to boolean
-
-  useEffect(() => {
-    get_id();
-  }, []);
 
   function openSidebar() {
     setIsSidebarOpen(!isSidebarOpen);
@@ -24,15 +19,6 @@ export default function RootLayout({
    
   
 
-  async function get_id () {
-    const id = await get_super_admin_id();
-     if(id===undefined){
-      setId(0);
-     }
-     else{
-      setId(id as number);
-     }
-    console.log("Super Admin ID:", id);}
 
 
   return (
@@ -51,10 +37,10 @@ export default function RootLayout({
         <div id="option-box">
           <Link href={"/add-course"}><h2 className="options">ADD COURSES</h2></Link>
             {/* <Link href={super_admin_id > 0 ? "/manage-students" : "/manage-students-login"}><h2 className="options">MANAGE STUDENTS</h2></Link> */}
-          <Link href={"/add-student"}><h2 className="options">ADD STUDENT</h2></Link>
+          <Link href={"/manage-students"}><h2 className="options">MANAGE STUDENTS</h2></Link>
           <Link href={"/mark-attendance"}> <h2 className="options">MARK ATTENDANCE</h2></Link>
           {/* <Link href={"/search-student"}><h2 className="options">SEARCH STUDENT</h2></Link> */}
-          <Link href={"/registration"} className="options"><h2>REGISTER</h2></Link>
+          <Link href={"/search-student"} className="options"><h2>SEARCH STUDENT</h2></Link>
           <Link href={"/today-attendance"}> <h2 className="options">TODAY'S ATTENDANCE</h2></Link>
         </div>
 

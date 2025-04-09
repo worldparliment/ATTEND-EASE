@@ -14,6 +14,7 @@ export default function Page() {
   const [isSearching, setSearching] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [courseName, setCourseName] = useState("")
+  const [is_open, setIsOpen] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
@@ -21,8 +22,7 @@ export default function Page() {
       const token = localStorage.getItem("course_id")
 
       if (!token) {
-        alert("Unauthorized access. Please log in.")
-        router.push("/login") // ⬅️ Change to your login route
+        setIsOpen(true)
         return
       }
 
@@ -33,14 +33,19 @@ export default function Page() {
         const name = await get_course_name(course_id)
         setCourseName(name as string)
       } catch (err) {
-        console.error("Token error:", err)
-        alert("Something went wrong. Try logging in again.")
-        router.push("/login")
+        console.log("Token error:", err)
+        setIsOpen(true)
       }
     }
 
     verify()
   }, [])
+
+  // ✅ Only redirect when user closes the popup manually
+  const handlePopupClose = () => {
+    setIsOpen(false)
+    router.push("/manage-students-login")
+  }
 
   async function stud(name: string) {
     setSearching(true)
@@ -56,7 +61,7 @@ export default function Page() {
         setShowModal(false)
       }
     } catch (error) {
-      console.error("Error:", error)
+      console.log("Error:", error)
     } finally {
       setSearching(false)
     }
@@ -114,6 +119,11 @@ export default function Page() {
       {/* Searching popup */}
       <Popup isOpen={isSearching} onClose={() => setSearching(false)} title="SEARCHING STUDENT">
         <p>BE PATIENT ;)</p>
+      </Popup>
+
+      {/* Login required popup */}
+      <Popup isOpen={is_open} onClose={handlePopupClose} title="PLEASE LOGIN FIRST">
+        <p>YOU HAVE NO COURSE LOGIN</p>
       </Popup>
     </div>
   )

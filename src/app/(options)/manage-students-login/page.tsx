@@ -6,6 +6,8 @@ import { get_super_admin_id } from '@/app/(utility)/get_super_admin_id';
 import { get_courses } from '@/app/(utility)/get_courses';
 import { useRouter } from 'next/navigation';
 import { get_token_for_course } from '@/app/(utility)/get_token_for_course';
+import Popup from '@/app/Component/pop-up';
+
 
 interface Course {
   course_name: string;
@@ -18,19 +20,24 @@ export default function Page() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [password, setPassword] = useState("");
   const [selectedCourseName, setSelectedCourseName] = useState("");
+  const [is_open , setIsOpen] = useState(false);
+  const [invalid , setinvalid] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
       try {
         const id = await get_super_admin_id();
         if (id === undefined) {
-          window.location.href = "/login";
-          throw new Error("Super admin ID is undefined");
+          setIsOpen(true);
+          setTimeout(() => {
+            window.location.href = "/login";
+            }, 2000);
+          console.log("Super admin ID is undefined");
         }
-        const courseList = await get_courses(id);
+        const courseList = await get_courses(id as number);
         setCourses(courseList);
       } catch (error) {
-        console.error("❌ Failed to fetch courses:", error);
+        console.log("❌ Failed to fetch courses:", error);
       }
     }
     fetchData();
@@ -51,18 +58,18 @@ export default function Page() {
         const token = await get_token_for_course(selectedCourse.course_id);
 
         if (!token || typeof token !== "string") {
-          throw new Error("Invalid token received");
+          console.log("Invalid token received");
         }
 
         console.log("✅ Token:", token);
         localStorage.setItem("course_id", token);
         router.push("/manage-students");
       } catch (error) {
-        console.error("❌ Error getting token:", error);
-        alert("Failed to login. Please try again.");
+        console.log("❌ Error getting token:", error);
+        alert("Error getting token. Please try again.");
       }
     } else {
-      alert("Invalid course or password.");
+      setinvalid(true);
     }
   }
 
@@ -106,6 +113,14 @@ export default function Page() {
           </div>
         </div>
       </div>
+
+      <Popup isOpen={is_open} onClose={() => setIsOpen(false)} title={"PLEASE LOGIN AS ADMIN"}>
+        <p>PLEASE LOGIN FIRST</p>
+      </Popup>
+
+      <Popup isOpen={invalid} onClose={() => setinvalid(false)} title={"OPPS!"}>
+        <p>WRONG PASSOWRD   :(  </p>
+      </Popup>
 
       <button id="sumbit" onClick={login_into_course}>SUBMIT</button>
     </div>

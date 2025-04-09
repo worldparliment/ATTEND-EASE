@@ -1,35 +1,35 @@
-"use client"
+'use client';
 
-import "./mark-attendance.css"
-import { get_all_face_embeddings } from '@/app/(utility)/get_face_embeddings'
-import React, { useEffect, useRef, useState } from 'react'
+import './mark-attendance.css';
+import { get_all_face_embeddings } from '@/app/(utility)/get_face_embeddings';
+import React, { useEffect, useRef, useState } from 'react';
 import match_face from '@/app/(utility)/match_face';
 import { loadModels } from '@/app/(utility)/load_models';
-import { generate_image_embdeddings } from "@/app/(utility)/face_scan";
-import Popup from "@/app/Component/pop-up";
-import { MARK_ATTENDANCE, Mark_attendance, STATUS } from "@/app/(utility)/mark_attendances";
-import { normalizeVector } from "@/app/(utility)/normalize";
-import { decode } from "@/app/(utility)/decode";
-import { get_student_count } from "@/app/(utility)/get_student_count";
-import { attendance } from "@/app/(utility)/get_attendance";
-import { get_course_name } from "@/app/(utility)/get_course_name";
-import { useRouter } from "next/navigation";
+import { generate_image_embdeddings } from '@/app/(utility)/face_scan';
+import Popup from '@/app/Component/pop-up';
+import { MARK_ATTENDANCE, Mark_attendance, STATUS } from '@/app/(utility)/mark_attendances';
+import { normalizeVector } from '@/app/(utility)/normalize';
+import { decode } from '@/app/(utility)/decode';
+import { get_student_count } from '@/app/(utility)/get_student_count';
+import { attendance } from '@/app/(utility)/get_attendance';
+import { get_course_name } from '@/app/(utility)/get_course_name';
+import { useRouter } from 'next/navigation';
 
 export default function Page() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
-  const [students, setStudents] = useState<Array<{ course_id: number, embedding: any[], name: string, roll_number: string }>>([]);
+  const [students, setStudents] = useState<Array<{ course_id: number; embedding: any[]; name: string; roll_number: string }>>([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isPopupOpenFailed, setIsPopupOpenFailed] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [faceName, setFaceName] = useState("");
+  const [faceName, setFaceName] = useState('');
   const [remaining, setRemaining] = useState(0);
   const [marked, setMarked] = useState(0);
-  const [courseName, setCourseName] = useState("");
-  const [login , setlogin] = useState(false);
-  const [alreadymarked , setAlreadyMarked] = useState(false);
+  const [courseName, setCourseName] = useState('');
+  const [login, setLogin] = useState(false);
+  const [alreadymarked, setAlreadyMarked] = useState(false);
 
   const router = useRouter();
 
@@ -38,28 +38,23 @@ export default function Page() {
 
     const initialize = async () => {
       try {
-        await loadModels(); // load models first
+        await loadModels();
 
-        const token = localStorage.getItem("course_id");
+        const token = localStorage.getItem('course_id');
         if (!token) {
-          setlogin(true);
-            setTimeout(() => router.push("/manage-students-login"), 2000);
+          setLogin(true);
+          setTimeout(() => router.push('/manage-students-login'), 2000);
           return;
         }
 
         const decoded = await decode(token);
         const course_id = decoded.course_id;
 
-        const [
-          course_name,
-          allStudentsRaw,
-          markedStudents,
-          faceEmbeddings
-        ] = await Promise.all([
+        const [course_name, allStudentsRaw, markedStudents, faceEmbeddings] = await Promise.all([
           get_course_name(course_id),
-          get_student_count("FOR", course_id, undefined),
+          get_student_count('FOR', course_id, undefined),
           attendance(course_id),
-          get_all_face_embeddings(course_id),
+          get_all_face_embeddings(course_id)
         ]);
 
         setCourseName(course_name as string);
@@ -78,10 +73,9 @@ export default function Page() {
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
         }
-
       } catch (error) {
-        console.log("Error initializing attendance system:", error);
-        setlogin(true)
+        console.log('Error initializing attendance system:', error);
+        setLogin(true);
       } finally {
         setIsLoading(false);
       }
@@ -91,7 +85,7 @@ export default function Page() {
 
     return () => {
       if (stream) {
-        stream.getTracks().forEach(track => track.stop());
+        stream.getTracks().forEach((track) => track.stop());
       }
     };
   }, []);
@@ -117,6 +111,20 @@ export default function Page() {
     canvas.height = video.videoHeight;
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
+    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
+
+    for (let i = 0; i < data.length; i += 4) {
+      const r = data[i];
+      const g = data[i + 1];
+      const b = data[i + 2];
+      let avg = (r + g + b) / 3;
+      avg = Math.min(255, Math.max(0, (avg - 128) * 1.5 + 128));
+      data[i] = data[i + 1] = data[i + 2] = avg;
+    }
+
+    context.putImageData(imageData, 0, 0);
+
     try {
       const embeddings = await generate_image_embdeddings(canvas);
       if (!embeddings?.descriptor) {
@@ -125,37 +133,40 @@ export default function Page() {
       }
 
       const faceToMatch = normalizeVector(Array.from(embeddings.descriptor));
-      let matchFound = false;
+
+      let bestMatchStudent = null;
+      let bestMatchScore = 0;
 
       for (const student of students) {
-        const match = match_face(student.embedding, faceToMatch);
-        if (match && match > 0.9) {
-          setFaceName(student.name);
-          
-          const data: Mark_attendance = {
-            roll_number: student.roll_number,
-            status: STATUS.PRESENT,
-            course_id: student.course_id,
-            name: student.name
-          };
-          
-          let sujal =  await MARK_ATTENDANCE(data); 
-          
-          if(sujal.success === false){
-            setAlreadyMarked(true);
-            setIsSearching(false);
-            return
-          }
-          
-          setIsPopupOpen(true);
-          setMarked(prev => prev + 1);
+        const storedEmbedding = normalizeVector(student.embedding);
+        const score = match_face(faceToMatch, storedEmbedding);
+        console.log(`Match score with ${student.name}: ${score}`);
 
-          matchFound = true;
-          break;
+        if (score > bestMatchScore) {
+          bestMatchScore = score;
+          bestMatchStudent = student;
         }
       }
 
-      if (!matchFound) {
+      if (bestMatchStudent && bestMatchScore > 0.95) {
+        setFaceName(bestMatchStudent.name);
+        const data: Mark_attendance = {
+          roll_number: bestMatchStudent.roll_number,
+          status: STATUS.PRESENT,
+          course_id: bestMatchStudent.course_id,
+          name: bestMatchStudent.name
+        };
+
+        const response = await MARK_ATTENDANCE(data);
+
+        if (response.success === false) {
+          setAlreadyMarked(true);
+          return;
+        }
+
+        setIsPopupOpen(true);
+        setMarked((prev) => prev + 1);
+      } else {
         setIsPopupOpenFailed(true);
       }
     } catch (err) {
@@ -171,8 +182,8 @@ export default function Page() {
   }
 
   return (
-    <div id='mark-attendance-page'>
-      <div id='mark-attendance-header'>
+    <div id="mark-attendance-page">
+      <div id="mark-attendance-header">
         <h2>ACTIVE COURSE - {courseName}</h2>
       </div>
 
@@ -192,7 +203,9 @@ export default function Page() {
         />
       </div>
 
-      <button id="capture-button" onClick={handleCapture}>MARK</button>
+      <button id="capture-button" onClick={handleCapture}>
+        MARK
+      </button>
       <canvas ref={canvasRef} style={{ display: 'none' }} />
 
       <Popup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)}>
@@ -207,15 +220,13 @@ export default function Page() {
         <div>SEARCHING FOR MATCH...</div>
       </Popup>
 
-      <Popup isOpen={login} onClose={() => setlogin(false)}>
+      <Popup isOpen={login} onClose={() => setLogin(false)}>
         <div>PLEASE LOGIN FIRST INTO COURSE</div>
       </Popup>
 
       <Popup isOpen={alreadymarked} onClose={() => setAlreadyMarked(false)}>
         <div>ALREADY MARKED FOR {faceName.toUpperCase()}</div>
       </Popup>
-
-
     </div>
   );
 }

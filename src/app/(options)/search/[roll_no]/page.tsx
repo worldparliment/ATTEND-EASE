@@ -6,6 +6,7 @@ import { search_student } from "@/app/(utility)/search_students_by_roll_no";
 import { decode } from "@/app/(utility)/decode";
 import { useRouter } from "next/navigation";
 import "./update.css"
+import AttendancePDFButton from "@/app/Component/Attendancedownloadbutton";
 
 interface PageProps {
   params: Promise<{ roll_no: number }>; // important: now it's a Promise
@@ -82,7 +83,7 @@ export default function Page(props: PageProps) {
 
 
 
-        <button id="btn">DOWNLOAD FULL ATTENDANCE REPORT OF {student.name.toUpperCase()}</button>
+      <AttendancePDFButton/>
 
 
           </div>

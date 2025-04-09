@@ -7,17 +7,21 @@ import { decode } from "@/app/(utility)/decode";
 import { useRouter } from "next/navigation";
 import "./update.css"
 import AttendancePDFButton from "@/app/Component/Attendancedownloadbutton";
+import { fetchAttendancebyrollno } from "@/app/(utility)/get_attend_roll";
+
 
 interface PageProps {
   params: Promise<{ roll_no: number }>; // important: now it's a Promise
 }
 
 export default function Page(props: PageProps) {
+
   const { roll_no } = use(props.params); // unwrap the promise
   const [student, setStudent] = useState<Student | null>(null);
   const router = useRouter();
 
   useEffect(() => {
+
     async function initialize() {
       try {
         const token = localStorage.getItem("course_id");
@@ -33,7 +37,7 @@ export default function Page(props: PageProps) {
           router.push("/manage-students-login");
           return;
         }
-
+       
         const studentData = await search_student(roll_no);
         setStudent(studentData[0] || null);
       } catch (error) {
@@ -83,7 +87,7 @@ export default function Page(props: PageProps) {
 
 
 
-      <AttendancePDFButton/>
+      <AttendancePDFButton props={{ roll_no: Number(student.roll_no) , name:student.name }} />
 
 
           </div>

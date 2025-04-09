@@ -14,6 +14,7 @@ import { get_student_count } from '@/app/(utility)/get_student_count';
 import { attendance } from '@/app/(utility)/get_attendance';
 import { get_course_name } from '@/app/(utility)/get_course_name';
 import { useRouter } from 'next/navigation';
+import Course_Name from '@/app/Component/add';
 
 export default function Page() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -184,7 +185,7 @@ export default function Page() {
   return (
     <div id="mark-attendance-page">
       <div id="mark-attendance-header">
-        <h2>ACTIVE COURSE - {courseName}</h2>
+        <h2>ACTIVE COURSE - <Course_Name/></h2>
       </div>
 
       <div id="data-attend">

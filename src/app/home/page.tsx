@@ -3,6 +3,7 @@ import './home.css'; // Import the CSS file
 import Link from 'next/link';
 
 function AttendEaseLanding() {
+ 
   return (
     <div className="container">
       <div className="attend-ease-card">

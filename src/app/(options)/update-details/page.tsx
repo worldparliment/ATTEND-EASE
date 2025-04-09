@@ -6,6 +6,7 @@ import Popup from '@/app/Component/pop-up'
 import Link from 'next/link'
 import { decode } from '@/app/(utility)/decode'
 import { useRouter } from 'next/navigation'
+import Course_Name from '@/app/Component/add'
 
 export default function Page() {
   const [students, setStudents] = useState<Student[]>([])
@@ -66,8 +67,8 @@ export default function Page() {
   return (
     <div id="main-c">
       <div id="header-search-student">
-        <h1>ACTIVE COURSE</h1>
-        <h1>BCA-2025</h1>
+        <h1>ACTIVE COURSE - <Course_Name/></h1>
+       
 
         <div id="main-conatiner-search">
           <div id="head-logo">

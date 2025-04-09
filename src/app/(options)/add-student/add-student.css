@@ -10,6 +10,17 @@
 }
 
 
+#lassi{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+#lassi h1{
+    display: flex;
+    align-items: center;
+}
 
 #add-student-form{
     display: flex;

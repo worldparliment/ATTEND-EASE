@@ -108,8 +108,8 @@ export default function Page() {
 
       </div>
 
-
-      <div id="top-attendance">
+     {/* need to make this functional later thats why commented */}
+      {/* <div id="top-attendance">
           <h2>OVERVIEW</h2>
           <div id="data-overview"></div>
           <h4>TOP 5 HIGHEST ATTENDANCE</h4>
@@ -118,7 +118,7 @@ export default function Page() {
           <div id="students-attendance">SUJAL (BCA1) - 56%</div>
           <div id="students-attendance">RIYA (BCA2) - 56%</div>
           <div id="students-attendance">SUJAL (BCA2)- 56%</div>
-      </div>
+      </div> */}
 
 
      </div>

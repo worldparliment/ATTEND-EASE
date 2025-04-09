@@ -18,7 +18,6 @@ export async function POST(req: NextRequest) {
       [roll_no]
     );
 
-    await DB.end();
 
     return new Response(JSON.stringify(rows), {
       status: 200,

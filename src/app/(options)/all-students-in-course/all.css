@@ -1,0 +1,46 @@
+#main-all{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+
+
+#all-student{
+  margin-top: 40px;
+}
+
+
+
+.student{
+    display: flex;
+    border: 2px solid #000;
+    padding: 5px;
+    border-radius: 10px;
+    background-color: #E9758A;
+    color: white;
+}
+
+
+#khyati{
+    display: flex ;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+
+#khyati img{
+    width: 50px;
+}
+
+span {
+    color: #E9758A;
+}
+
+
+a {
+    text-decoration: none;
+    color: white;
+}

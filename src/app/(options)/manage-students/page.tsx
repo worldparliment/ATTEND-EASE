@@ -1,10 +1,12 @@
 "use client"
 
+
 import { decode } from '@/app/(utility)/decode'
 import React, { useState, useEffect } from 'react'
 import "./manage-students.css"
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Course_Name from '@/app/Component/add'
 
 export default function Page() {
   const [course_id, setCourseid] = useState<number | null>(null)
@@ -48,18 +50,20 @@ export default function Page() {
   if (course_id === null) return null
 
   return (
-    <div>
-      <h1>ACTIVE COURSE</h1>
-      <h1>BCA - 2025</h1>
+    <div id="space">
+      <h1>ACTIVE COURSE   -  <Course_Name/></h1>
+   
       <div id="main-container">
         <div id="main-header">
           <h2>WHAT WOULD YOU LIKE TO DO</h2>
         </div>
         <div id="options-todo">
           <div className="todo"><Link href={"/add-student"}><h2>ADD STUDENT</h2></Link></div>
-          <div className="todo"><h2>DELETE STUDENT</h2></div>
+          <div className="todo"><Link href={"delete-students"}><h2>DELETE STUDENT</h2></Link></div>
           <div className="todo"><Link href={"/update-details"}><h2>UPDATE DETAILS</h2></Link></div>
           <div className="todo"><Link href={"/search-student"}><h2>SEARCH STUDENT</h2></Link></div>
+          <div className="todo"><Link href={"/all-students-in-course"}><h2>ALL STUDENTS</h2></Link></div>
+          <div className="todo"><Link href={"/manage-students-login"}><h2>CHANGE COURSE</h2></Link></div>
         </div>
       </div>
     </div>

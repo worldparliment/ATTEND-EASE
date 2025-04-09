@@ -6,6 +6,21 @@
 }
 
 
+#ss{
+    display: flex;
+    flex-direction: column;
+    align-items: center;    
+    justify-content: center;
+}
+
+#sa{
+    display: flex;
+
+    align-items: center;    
+    justify-content: center;
+}
+
+
 #card{
     display: flex;
     gap: 60px;

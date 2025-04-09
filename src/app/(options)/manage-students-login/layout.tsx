@@ -12,8 +12,6 @@ export default function RootLayout({
 }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Changed to boolean
 
-
-
   function openSidebar() {
     setIsSidebarOpen(!isSidebarOpen);
     console.log("Sidebar Open:", !isSidebarOpen);
@@ -21,7 +19,6 @@ export default function RootLayout({
    
   
 
- 
 
 
   return (
@@ -45,6 +42,7 @@ export default function RootLayout({
           {/* <Link href={"/search-student"}><h2 className="options">SEARCH STUDENT</h2></Link> */}
           <Link href={"/search-student"} className="options"><h2>SEARCH STUDENT</h2></Link>
           <Link href={"/today-attendance"}> <h2 className="options">TODAY'S ATTENDANCE</h2></Link>
+          <Link href={"/dashboard"}> <h2 className="options">DASHBOARD</h2></Link>
         </div>
 
 

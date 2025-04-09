@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import "./today.css"
 import { decode } from '@/app/(utility)/decode'
 import { useRouter } from 'next/navigation'
+import Course_Name from '@/app/Component/add'
 
 export default function Page() {
   const [student, setStudent] = useState<attendance[]>([])
@@ -37,8 +38,8 @@ export default function Page() {
   return (
     <div id='main-container-attendance'>
       <div id='active-course'>
-        <h1>ACTIVE-COURSE</h1>
-        <h1>BCA-2025</h1>
+        <h1>ACTIVE COURSE - <Course_Name/> </h1>
+    
       </div>
 
       <div id="head-logoo">

@@ -8,6 +8,7 @@ import { get_courses } from '@/app/(utility)/get_courses'
 import getFaceEmbedding from '@/app/(utility)/get_face_emdedding'
 import { decode } from '@/app/(utility)/decode'
 import { get_course_name } from '@/app/(utility)/get_course_name'
+import Course_Name from '@/app/Component/add'
 
 type Course = {
   course_id: number,
@@ -18,7 +19,7 @@ export default function Page() {
   const [super_admin_id, setSuperAdminId] = useState<number | null>(null)
   const [course_id, setCourseId] = useState<number | null>(null)
   const [faceAvailable, setFaceAvailable] = useState(false)
-  const [course_name , set_course_name] = useState("")
+
 
   const [student, setStudent] = useState({
     name: "",
@@ -60,8 +61,6 @@ export default function Page() {
         if (!decoded || !decoded.course_id) throw new Error("Invalid course token")
 
         setCourseId(decoded.course_id)
-        let course = await get_course_name(course_id as number);
-        set_course_name(course as string)
       } catch (error: any) {
         console.error("Authentication error:", error.message)
 
@@ -119,9 +118,9 @@ export default function Page() {
   }
 
   return (
-    <div>
-      <h1>ACTIVE COURSE - <span>{course_name}</span></h1>
-      <span><h1>2025</h1></span>
+    <div id="lassi">
+      <h1>ACTIVE COURSE - <span><Course_Name/></span></h1>
+
 
       <div id="add-student-logo-text">
         <img src="https://cdn-icons-png.flaticon.com/128/7218/7218044.png" alt="logo" id="add-student-logo" />

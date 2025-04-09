@@ -42,6 +42,7 @@ export default function RootLayout({
           {/* <Link href={"/search-student"}><h2 className="options">SEARCH STUDENT</h2></Link> */}
           <Link href={"/search-student"} className="options"><h2>SEARCH STUDENT</h2></Link>
           <Link href={"/today-attendance"}> <h2 className="options">TODAY'S ATTENDANCE</h2></Link>
+          <Link href={"/dashboard"}> <h2 className="options">DASHBOARD</h2></Link>
         </div>
 
 

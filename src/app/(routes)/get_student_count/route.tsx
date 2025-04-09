@@ -10,8 +10,8 @@ export async function POST (request:NextRequest) {
       let course_id:any|undefined = data.course_id;
       let option = data.option;
 
-      let college_url = "SELECT name FROM STUDENTS WHERE admin_id=?"
-      let course_url = "SELECT name FROM STUDENTS WHERE course_id=?"
+      let college_url = "SELECT * FROM STUDENTS WHERE admin_id=?"
+      let course_url = "SELECT * FROM STUDENTS WHERE course_id=?"
 
       if(option==="FOR_WHOLE_COLLEGE"){
            let [start] = await DB.query(college_url , [admin_id]);

@@ -1,5 +1,18 @@
 
+#main-container-attendance{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
 
+
+#main-container-attendance h1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
 
 
 #head-logoo{

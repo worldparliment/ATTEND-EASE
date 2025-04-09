@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { decode } from '@/app/(utility)/decode'
 import { get_course_name } from '@/app/(utility)/get_course_name'
 import { useRouter } from 'next/navigation'
+import Course_Name from '@/app/Component/add'
 
 export default function Page() {
   const [students, setStudents] = useState<Student[]>([])
@@ -78,8 +79,8 @@ export default function Page() {
   return (
     <div id="main-c">
       <div id="header-search-student">
-        <h1>ACTIVE COURSE</h1>
-        <h1>{courseName || "Loading..."}</h1>
+        <h1>ACTIVE COURSE - <Course_Name /></h1>
+       
 
         <div id="main-conatiner-search">
           <div id="head-logo">

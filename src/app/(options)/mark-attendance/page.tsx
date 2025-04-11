@@ -28,7 +28,6 @@ export default function Page() {
   const [faceName, setFaceName] = useState('');
   const [remaining, setRemaining] = useState(0);
   const [marked, setMarked] = useState(0);
-  const [courseName, setCourseName] = useState('');
   const [login, setLogin] = useState(false);
   const [alreadymarked, setAlreadyMarked] = useState(false);
 
@@ -39,15 +38,16 @@ export default function Page() {
 
     const initialize = async () => {
       try {
+        // 1) Load face-api models
         await loadModels();
 
+        // 2) Verify course token & fetch data
         const token = localStorage.getItem('course_id');
         if (!token) {
           setLogin(true);
           setTimeout(() => router.push('/manage-students-login'), 2000);
           return;
         }
-
         const decoded = await decode(token);
         const course_id = decoded.course_id;
 
@@ -55,27 +55,31 @@ export default function Page() {
           get_course_name(course_id),
           get_student_count('FOR', course_id, undefined),
           attendance(course_id),
-          get_all_face_embeddings(course_id)
+          get_all_face_embeddings(course_id),
         ]);
 
-        setCourseName(course_name as string);
         setRemaining((allStudentsRaw as any[]).length);
         setMarked(markedStudents.length);
 
-        const formattedStudents = faceEmbeddings.map((student: any) => ({
-          course_id: student.course_id,
-          embedding: student.face_embeddings,
-          name: student.name,
-          roll_number: student.roll_no.toString()
+        const formatted = (faceEmbeddings as any[]).map((s) => ({
+          course_id: s.course_id,
+          embedding: s.face_embeddings,
+          name: s.name,
+          roll_number: s.roll_no.toString(),
         }));
-        setStudents(formattedStudents);
+        setStudents(formatted);
 
+        // 3) Start camera & force play
         stream = await navigator.mediaDevices.getUserMedia({ video: true });
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
+          // Explicitly play so preview shows immediately
+          // (works around some autoplay policies)
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          await videoRef.current!.play();
         }
-      } catch (error) {
-        console.log('Error initializing attendance system:', error);
+      } catch (err) {
+        console.error('Initialization error:', err);
         setLogin(true);
       } finally {
         setIsLoading(false);
@@ -86,92 +90,80 @@ export default function Page() {
 
     return () => {
       if (stream) {
-        stream.getTracks().forEach((track) => track.stop());
+        stream.getTracks().forEach((t) => t.stop());
       }
     };
-  }, []);
+  }, [router]);
 
   async function handleCapture() {
     setIsSearching(true);
+    await new Promise((r) => setTimeout(r, 0));
 
     const video = videoRef.current;
     const canvas = canvasRef.current;
-
     if (!video || !canvas) {
       setIsSearching(false);
       return;
     }
 
-    const context = canvas.getContext('2d');
-    if (!context) {
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
       setIsSearching(false);
       return;
     }
 
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-    const data = imageData.data;
-
-    for (let i = 0; i < data.length; i += 4) {
-      const r = data[i];
-      const g = data[i + 1];
-      const b = data[i + 2];
-      let avg = (r + g + b) / 3;
-      avg = Math.min(255, Math.max(0, (avg - 128) * 1.5 + 128));
-      data[i] = data[i + 1] = data[i + 2] = avg;
+    const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const d = imgData.data;
+    for (let i = 0; i < d.length; i += 4) {
+      const avg = Math.min(255, Math.max(0, ((d[i] + d[i+1] + d[i+2]) / 3 - 128) * 1.5 + 128));
+      d[i] = d[i+1] = d[i+2] = avg;
     }
-
-    context.putImageData(imageData, 0, 0);
+    ctx.putImageData(imgData, 0, 0);
 
     try {
-      const embeddings = await generate_image_embdeddings(canvas);
-      if (!embeddings?.descriptor) {
+      const emb = await generate_image_embdeddings(canvas);
+      if (!emb?.descriptor) {
+        setIsSearching(false);
         setIsPopupOpenFailed(true);
         return;
       }
 
-      const faceToMatch = normalizeVector(Array.from(embeddings.descriptor));
+      const probe = normalizeVector(Array.from(emb.descriptor));
+      let best: any = null;
+      let topScore = 0;
 
-      let bestMatchStudent = null;
-      let bestMatchScore = 0;
-
-      for (const student of students) {
-        const storedEmbedding = normalizeVector(student.embedding);
-        const score = match_face(faceToMatch, storedEmbedding);
-        console.log(`Match score with ${student.name}: ${score}`);
-
-        if (score > bestMatchScore) {
-          bestMatchScore = score;
-          bestMatchStudent = student;
+      for (const s of students) {
+        const score = match_face(probe, normalizeVector(s.embedding));
+        if (score > topScore) {
+          topScore = score;
+          best = s;
         }
       }
 
-      if (bestMatchStudent && bestMatchScore > 0.95) {
-        setFaceName(bestMatchStudent.name);
-        const data: Mark_attendance = {
-          roll_number: bestMatchStudent.roll_number,
+      if (best && topScore > 0.95) {
+        setFaceName(best.name);
+        const payload: Mark_attendance = {
+          roll_number: best.roll_number,
           status: STATUS.PRESENT,
-          course_id: bestMatchStudent.course_id,
-          name: bestMatchStudent.name
+          course_id: best.course_id,
+          name: best.name,
         };
-
-        const response = await MARK_ATTENDANCE(data);
-
-        if (response.success === false) {
+        const res = await MARK_ATTENDANCE(payload);
+        if (!res.success) {
           setAlreadyMarked(true);
-          return;
+        } else {
+          setIsPopupOpen(true);
+          setMarked((m) => m + 1);
         }
-
-        setIsPopupOpen(true);
-        setMarked((prev) => prev + 1);
       } else {
         setIsPopupOpenFailed(true);
       }
     } catch (err) {
-      console.log('Error generating embeddings:', err);
+      console.error('Capture error:', err);
       setIsPopupOpenFailed(true);
     } finally {
       setIsSearching(false);
@@ -185,7 +177,7 @@ export default function Page() {
   return (
     <div id="mark-attendance-page">
       <div id="mark-attendance-header">
-        <h2>ACTIVE COURSE - <Course_Name/></h2>
+        <h2>ACTIVE COURSE – <Course_Name /></h2>
       </div>
 
       <div id="data-attend">
@@ -207,24 +199,21 @@ export default function Page() {
       <button id="capture-button" onClick={handleCapture}>
         MARK
       </button>
+
       <canvas ref={canvasRef} style={{ display: 'none' }} />
-
-      <Popup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)}>
-        <div>ATTENDANCE MARKED {faceName.toUpperCase()}</div>
-      </Popup>
-
-      <Popup isOpen={isPopupOpenFailed} onClose={() => setIsPopupOpenFailed(false)}>
-        <div>NOT REGISTERED YET</div>
-      </Popup>
 
       <Popup isOpen={isSearching} onClose={() => setIsSearching(false)}>
         <div>SEARCHING FOR MATCH...</div>
       </Popup>
-
+      <Popup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)}>
+        <div>ATTENDANCE MARKED {faceName.toUpperCase()}</div>
+      </Popup>
+      <Popup isOpen={isPopupOpenFailed} onClose={() => setIsPopupOpenFailed(false)}>
+        <div>NOT REGISTERED YET</div>
+      </Popup>
       <Popup isOpen={login} onClose={() => setLogin(false)}>
         <div>PLEASE LOGIN FIRST INTO COURSE</div>
       </Popup>
-
       <Popup isOpen={alreadymarked} onClose={() => setAlreadyMarked(false)}>
         <div>ALREADY MARKED FOR {faceName.toUpperCase()}</div>
       </Popup>

@@ -23,6 +23,8 @@ export default function RootLayout({
 
   return (
     <div id="container-1">
+       <title>ATTEND-EASE [COURSE-LOGIN]</title>
+       <link rel="icon" href="/sujal.svg" />
       <div
         id="aside-bar"
 

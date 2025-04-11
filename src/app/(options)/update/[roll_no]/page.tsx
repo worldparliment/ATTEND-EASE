@@ -115,7 +115,7 @@ export default function Page(props: PageProps) {
   const fields: (keyof EditableStudentFields)[] = ["name", "roll_no", "father_name", "age", "phone_no"];
 
   return (
-    <div>
+    <div id="su">
       <h1>ACTIVE COURSE</h1>
       <h1>BCA-2025</h1>
       <div id="stylish-card">
@@ -127,7 +127,6 @@ export default function Page(props: PageProps) {
             <h2>FATHER NAME</h2>
             <h2>AGE</h2>
             <h2>PHONE</h2>
-            <h2>ATTENDANCE</h2>
           </div>
 
           <div id="inputs-student">

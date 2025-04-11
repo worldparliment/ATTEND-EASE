@@ -9,18 +9,34 @@
 
 #all-student{
   margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 
-
-.student{
+.student {
     display: flex;
     border: 2px solid #000;
-    padding: 5px;
-    border-radius: 10px;
-    background-color: #E9758A;
+    padding: 10px 20px;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #f08095, #d86479); /* Gradient for 3D feel */
     color: white;
-}
+    font-weight: bold;
+    box-shadow: 4px 4px 0 #000; /* Shadow gives a pop effect */
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .student:hover {
+    transform: translateY(-2px);
+    box-shadow: 6px 6px 0 #000;
+  }
+  
+  .student:active {
+    transform: translateY(2px);
+    box-shadow: 2px 2px 0 #000;
+  }
 
 
 #khyati{

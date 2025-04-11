@@ -17,16 +17,35 @@
   justify-content: center;
   align-items: center;
 }
-
-.todo{
-    width: 260px;
-    padding: 5px;
-    border-radius: 10px;
-    text-align: center;
-    background-color: #E9758A;
-    color: white;
-    cursor: pointer;
+.todo {
+  width: 280px;
+  padding: 10px 20px;
+  border-radius: 16px;
+  text-align: center;
+  background: linear-gradient(135deg, #E9758A, #d94a6b);
+  color: #fff;
+  font-family: "Inclusive Sans", sans-serif;
+  font-size: 1.2rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  box-shadow: 6px 6px 0 #000;
+  transition: all 0.25s ease-in-out;
+  cursor: pointer;
+  user-select: none;
+  text-transform: uppercase;
 }
+
+.todo:hover {
+  transform: translateY(-4px);
+  box-shadow: 10px 10px 0 #000;
+  background: linear-gradient(135deg, #f08095, #e15775);
+}
+
+.todo:active {
+  transform: translateY(2px);
+  box-shadow: 3px 3px 0 #000;
+}
+
 
 
 .todo:hover{

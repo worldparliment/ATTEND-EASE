@@ -146,7 +146,7 @@ export default function Page() {
           </div>
         </div>
 
-        <Link href="./face-scan" id="add">
+        <Link href="./face-scan" id="adds">
           <img src="https://cdn-icons-png.flaticon.com/128/15742/15742687.png" alt="add" id="add-student-add-icon" />
           <h1>CLICK HERE TO ADD FACE</h1>
           <p>FIRST ADD FACE THEN YOU WILL ABLE TO FILL THE FORM</p>

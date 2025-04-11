@@ -1,6 +1,6 @@
 "use client";
 
-import { get_super_admin_id } from "@/app/(utility)/get_super_admin_id";
+
 import "./dashboard.css";
 import Link from "next/link";
 import { useState, useEffect } from "react";
@@ -23,6 +23,8 @@ export default function RootLayout({
 
   return (
     <div id="container-1">
+     <title>ATTEND-EASE [DASHBOARD]</title>
+      <link rel="icon" href="/sujal.svg" />
       <div
         id="aside-bar"
 

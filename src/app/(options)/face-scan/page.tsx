@@ -46,9 +46,8 @@ export default function FaceScanPage() {
         }
       }
     }
-
     verifyAccess();
-  }, []);
+  }, [router]);
 
   // 👁️ Load face-api models and camera
   useEffect(() => {
@@ -68,54 +67,56 @@ export default function FaceScanPage() {
 
   // 📸 Main capture + preprocessing logic
   async function handleCapture() {
+    // 1) Show processing popup
     setIsPopupOpenprocessing(true);
+
+    // 2) Yield so React can render the popup immediately
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
     const video = videoRef.current;
     const canvas = canvasRef.current;
+    if (!video || !canvas) return;
 
-    if (video && canvas) {
-      const context = canvas.getContext('2d');
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
+    const context = canvas.getContext('2d');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
 
-      if (context) {
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    if (context) {
+      // draw current frame
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-        const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-        const data = imageData.data;
-
-        // 🎨 Convert to grayscale + contrast boost
-        for (let i = 0; i < data.length; i += 4) {
-          const r = data[i];
-          const g = data[i + 1];
-          const b = data[i + 2];
-
-          let avg = (r + g + b) / 3;
-          avg = Math.min(255, Math.max(0, (avg - 128) * 1.5 + 128)); // contrast stretch
-
-          data[i] = data[i + 1] = data[i + 2] = avg; // grayscale
-        }
-
-        context.putImageData(imageData, 0, 0);
-
-        const embeddings = await generate_image_embdeddings(canvas);
-
-        if (!embeddings?.descriptor) {
-          setIsPopupOpenprocessing(false);
-          setIsPopupOpen(true);
-          return;
-        }
-
-        const plainArray = Array.from(embeddings.descriptor);
-        const normalized = normalizeVector(plainArray);
-        localStorage.setItem('face_embedding', JSON.stringify(normalized));
-
-        setIsPopupOpenprocessing(false);
-        setIsPopupOpenface(true);
-
-        setTimeout(() => {
-          router.push('/add-student');
-        }, 2000);
+      // grayscale + contrast
+      const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+      const data = imageData.data;
+      for (let i = 0; i < data.length; i += 4) {
+        const r = data[i], g = data[i + 1], b = data[i + 2];
+        let avg = (r + g + b) / 3;
+        avg = Math.min(255, Math.max(0, (avg - 128) * 1.5 + 128));
+        data[i] = data[i + 1] = data[i + 2] = avg;
       }
+      context.putImageData(imageData, 0, 0);
+
+      // embeddings
+      const embeddings = await generate_image_embdeddings(canvas);
+
+      // hide processing popup
+      setIsPopupOpenprocessing(false);
+
+      if (!embeddings?.descriptor) {
+        setIsPopupOpen(true);
+        return;
+      }
+
+      // normalize & store
+      const plainArray = Array.from(embeddings.descriptor);
+      const normalized = normalizeVector(plainArray);
+      localStorage.setItem('face_embedding', JSON.stringify(normalized));
+
+      // success popup + redirect
+      setIsPopupOpenface(true);
+      setTimeout(() => {
+        router.push('/add-student');
+      }, 2000);
     }
   }
 
@@ -137,20 +138,34 @@ export default function FaceScanPage() {
         />
       </div>
 
-      <div style={{ marginTop: '1rem' }} id='face-scan-btn'>
-        <button onClick={handleCapture} className="capture-btn">SCAN</button>
+      <div style={{ marginTop: '1rem' }} id="face-scan-btn">
+        <button onClick={handleCapture} className="capture-btn">
+          SCAN
+        </button>
       </div>
 
-      <Popup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} title="ERROR">
+      <Popup
+        isOpen={isPopupOpenprocessing}
+        onClose={() => setIsPopupOpenprocessing(false)}
+        title="PROCESSING"
+      >
+        <h3>PROCESSING FACE... PLEASE WAIT :)</h3>
+      </Popup>
+
+      <Popup
+        isOpen={isPopupOpen}
+        onClose={() => setIsPopupOpen(false)}
+        title="ERROR"
+      >
         <h3>NO FACE DETECTED. PLEASE TRY AGAIN.</h3>
       </Popup>
 
-      <Popup isOpen={isPopupOpenface} onClose={() => setIsPopupOpenface(false)} title="SUCCESS">
+      <Popup
+        isOpen={isPopupOpenface}
+        onClose={() => setIsPopupOpenface(false)}
+        title="SUCCESS"
+      >
         <h3>FACE DETECTED!</h3>
-      </Popup>
-
-      <Popup isOpen={isPopupOpenprocessing} onClose={() => setIsPopupOpenprocessing(false)} title="PROCESSING">
-        <h3>PROCESSING FACE... PLEASE WAIT :)</h3>
       </Popup>
 
       <canvas ref={canvasRef} style={{ display: 'none' }} />

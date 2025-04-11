@@ -1,124 +1,81 @@
-/* Attend-Ease Landing Page Styles */
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
 
-/* Base styles */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "audiowide";
-  }
-  
-  .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  .attend-ease-card {
-    text-align: center;
-    max-width: 500px;
-    padding: 20px;
-  }
-  
-  /* Logo container styling */
-  .logo-container {
-    position: relative;
-    border: 1px solid #cccccc;
-    padding: 20px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: center;
-  }
-  
-  .icon-image {
-    max-width: 80px;
-    height: auto;
-  }
-  
-  /* Brand name styling */
-  .brand-name {
-    position: relative;
-    border: 1px solid #e63946;
+
+.button-frame {
+  position: relative;
+  display: inline-block;
     padding: 10px;
-    margin: 20px 0;
-  }
-  
-  .brand-text {
-    font-size: 28px;
-    font-weight: bold;
-    letter-spacing: 1px;
-  }
-  
-  .attend {
-    color: #e63946;
-  }
-  
-  .ease {
-    color: #1d3557;
-  }
-  
-  /* Tagline styling */
-  .tagline {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 30px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-  
-  .tagline-dot {
-    color: #e63946;
-  }
-  
-  /* CTA button styling */
-  .cta-button {
-    display: inline-block;
-    background-color: transparent;
-    color: #e63946;
-    border: 1px solid #e63946;
-    padding: 10px 30px;
-    font-size: 16px;
-    font-weight: bold;
-    text-transform: uppercase;
-    cursor: pointer;
-    letter-spacing: 1px;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  
-  .cta-button:hover {
-    background-color: #e63946;
-    color: white;
-  }
-  
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .attend-ease-card {
-      padding: 15px;
-      max-width: 90%;
-    }
-    
-    .brand-text {
-      font-size: 24px;
-    }
-    
-    .tagline {
-      font-size: 16px;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .brand-text {
-      font-size: 20px;
-    }
-    
-    .tagline {
-      font-size: 14px;
-    }
-    
-    .cta-button {
-      padding: 8px 20px;
-      font-size: 14px;
-    }
-  }
+     font-family: "audiowide"
+}
+
+.button-frame::before,
+.button-frame::after,
+.button-frame .corner::before,
+.button-frame .corner::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 2px solid black;
+}
+
+/* Top-left */
+.button-frame::before {
+  top: 0;
+  left: 0;
+  border-right: none;
+  border-bottom: none;
+}
+
+/* Bottom-right */
+.button-frame::after {
+  bottom: 0;
+  right: 0;
+  border-left: none;
+  border-top: none;
+}
+
+/* Top-right */
+.button-frame .corner::before {
+  top: 0;
+  right: 0;
+  border-left: none;
+  border-bottom: none;
+}
+
+/* Bottom-left */
+.button-frame .corner::after {
+  bottom: 0;
+  left: 0;
+  border-right: none;
+  border-top: none;
+}
+
+.try-now-button {
+  background-color: #ec667d;
+  border: none;
+  color: white;
+  font-size: 18px;
+  padding: 10px 25px;
+  border-radius: 12px;
+  font-family: 'Arial Rounded MT Bold', sans-serif;
+  letter-spacing: 1px;
+  font-family: "audiowide";
+  cursor: pointer; 
+}
+
+.try-now-button:hover {
+  background-color: #d55a6b;
+  transition: background-color 0.3s ease;
+}
+
+
+
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 200px;
+
+}

@@ -79,7 +79,7 @@ export default function Page() {
   return (
     <div id="main-c">
       <div id="header-search-student">
-        <h1>ACTIVE COURSE - <Course_Name /></h1>
+        <h1 id='wdym'>ACTIVE COURSE - <Course_Name /></h1>
        
 
         <div id="main-conatiner-search">

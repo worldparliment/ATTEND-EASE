@@ -52,17 +52,33 @@
     
 }
 
-
-#cards{
-    font-size: xx-large;
-    background-color: #E9758A;
-    font-family: "Inclusive sans";
-    color: white;
-    padding: 10px;
-    border: 1px solid black;
+#cards {
+    font-size: 1.8rem;
+    font-family: "Inclusive Sans", sans-serif;
+    background: linear-gradient(135deg, #E9758A, #d94a6b);
+    color: #fff;
+    padding: 16px 24px;
+    border: none;
+    border-radius: 16px;
+    box-shadow: 6px 6px 0 #000;
+    transition: all 0.2s ease-in-out;
     cursor: pointer;
-}
-
+    text-align: center;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  
+  #cards:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 8px 8px 0 #000;
+    background: linear-gradient(135deg, #f08095, #e15775);
+  }
+  
+  #cards:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 #000;
+  }
+  
 
 
 #student-name {

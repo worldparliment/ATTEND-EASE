@@ -9,7 +9,6 @@
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    background: #f8f9fa;
   }
   
   #ask {
@@ -31,7 +30,6 @@
     justify-content: flex-start;
     min-height: 100vh;
     padding: 2rem 0;
-    background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f0 100%);
   }
   
   #names,
@@ -66,7 +64,7 @@
   #names h3,
   #roll_no h3,
   #total-presents h3 {
-    position: sticky;
+
     top: 0;
     width: 100%;
     padding: 15px;

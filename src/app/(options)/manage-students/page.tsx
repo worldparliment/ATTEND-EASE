@@ -64,7 +64,7 @@ export default function Page() {
           <div className="todo"><Link href={"/search-student"}><h2>SEARCH STUDENT</h2></Link></div>
           <div className="todo"><Link href={"/all-students-in-course"}><h2>ALL STUDENTS</h2></Link></div>
           <div className="todo"><Link href={"/manage-students-login"}><h2>CHANGE COURSE</h2></Link></div>
-          <div className="todo"><Link href={"/all-attendance"}><h2>ALL ATTENDANCE </h2></Link></div>
+          <div className="todo"><Link href={"/all_attendance"}><h2>ALL ATTENDANCE </h2></Link></div>
 
         </div>
       </div>

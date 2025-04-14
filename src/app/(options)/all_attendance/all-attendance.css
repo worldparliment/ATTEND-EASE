@@ -1,0 +1,140 @@
+.attendance-table {
+    width: 90%;
+    max-width: 1200px;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 2rem auto;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    background: #f8f9fa;
+  }
+  
+  #ask {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    margin: 1.5rem 0;
+    color: #2c3e50;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    letter-spacing: 1px;
+  }
+  
+  #main-container-all-attendance {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding: 2rem 0;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f0 100%);
+  }
+  
+  #names,
+  #roll_no,
+  #total-presents {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding: 20px 0;
+    height: 100%;
+    overflow-y: auto;
+  }
+  
+  #names {
+    width: 50%;
+    background-color: #ffffff;
+    border-right: 1px solid #e9ecef;
+  }
+  
+  #roll_no {
+    width: 20%;
+    background-color: #ffffff;
+    border-right: 1px solid #e9ecef;
+  }
+  
+  #total-presents {
+    width: 30%;
+    background-color: #ffffff;
+  }
+  
+  #names h3,
+  #roll_no h3,
+  #total-presents h3 {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    padding: 15px;
+    margin: 0;
+    text-align: center;
+    background-color: #db5971;
+    color: white;
+    font-weight: 600;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .name-card,
+  .roll-card,
+  .total-present {
+    width: 80%;
+    margin: 5px 0;
+    padding: 12px 15px;
+    border-radius: 8px;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+  
+  .name-card {
+    background-color: #db5971;
+    color: white;
+    font-weight: 500;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .roll-card {
+    background-color: #f8f9fa;
+    color: #2c3e50;
+    border: 1px solid #dee2e6;
+    font-weight: bold;
+  }
+  
+  .total-present {
+    background-color: #28a745;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Hover effects */
+  .name-card:hover,
+  .roll-card:hover,
+  .total-present:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .attendance-table {
+      flex-direction: column;
+      height: auto;
+    }
+    
+    #names,
+    #roll_no,
+    #total-presents {
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid #e9ecef;
+    }
+    
+    #total-presents {
+      border-bottom: none;
+    }
+  }

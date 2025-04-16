@@ -5,10 +5,12 @@ import "./today.css"
 import { decode } from '@/app/(utility)/decode'
 import { useRouter } from 'next/navigation'
 import Course_Name from '@/app/Component/add'
+import Popup from '@/app/Component/pop-up'
 
 export default function Page() {
   const [student, setStudent] = useState<attendance[]>([])
   const router = useRouter()
+  const [isopen , setIsOpen] = useState(false)
 
   useEffect(() => {
     async function set_everything() {
@@ -26,9 +28,8 @@ export default function Page() {
         setStudent(courseAttendance)
         console.log("Present students:", courseAttendance)
       } catch (err) {
-        console.error("Error decoding or fetching attendance:", err)
-        alert("Session expired or invalid token. Please log in again.")
-        router.push("/manage-students-login")
+        setIsOpen(true)
+        setTimeout(()=>{router.push("/manage-students-login")} , 2000)
       }
     }
 
@@ -56,6 +57,7 @@ export default function Page() {
           ))}
         </div>
       </div>
+      <Popup isOpen={isopen} onClose={()=>{setIsOpen(false)}} title='LOGIN FIRST'><p>PLEASE LOGIN INTO COURSE</p></Popup>
     </div>
   )
 }

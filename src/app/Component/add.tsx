@@ -27,8 +27,8 @@ export default function Course_Name() {
                     setError("No course ID found in localStorage.");
                 }
             } catch (err) {
-                console.error("Error fetching course name:", err);
-                setError("Failed to fetch course name.");
+
+                setError("LOGIN PLEASE INTO COURSE");
             }
         };
         fetchCourseName();
